@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kontaktlar Dasturi</title>
+</head>
+<body>
+  <h2>Kontakt qo‘shish</h2>
+  
+  <form id="contactForm">
+    <input type="text" id="name" placeholder="Ism" required />
+    <input type="text" id="phone" placeholder="Telefon raqam" required />
+    <button type="submit">Qo‘shish</button>
+  </form>
+
+  <h3>Kontaktlar ro‘yxati:</h3>
+  <ul id="contactsList"></ul>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    const contactsList = document.getElementById('contactsList');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+
+      if (name && phone) {
+        const li = document.createElement('li');
+        li.textContent = `${name} — ${phone}`;
+        contactsList.appendChild(li);
+
+        form.reset();
+      }
+    });
+  </script>
+</body>
+</html>
