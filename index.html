@@ -19,21 +19,34 @@
   <script>
     const form = document.getElementById('contactForm');
     const contactsList = document.getElementById('contactsList');
-
+    let contacts = JSON.parse(localStorage.getItem('contacts')) || [];
+    function renderContacts() {
+      contactsList.innerHTML = '';
+      contacts.forEach(({ name, phone }) => {
+        const li = document.createElement('li');
+        li.textContent = `${name} — ${phone}`;
+        contactsList.appendChild(li);
+      });
+    }
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
       const name = document.getElementById('name').value.trim();
       const phone = document.getElementById('phone').value.trim();
+      const isDuplicate = contacts.some(contact =>
+        contact.name === name && contact.phone === phone
+      );
 
-      if (name && phone) {
-        const li = document.createElement('li');
-        li.textContent = `${name} — ${phone}`;
-        contactsList.appendChild(li);
-
+      if (!isDuplicate) {
+        contacts.push({ name, phone });
+        localStorage.setItem('contacts', JSON.stringify(contacts));
+        renderContacts();
         form.reset();
+      } else {
+        alert('Bu kontakt allaqachon mavjud!');
       }
     });
+    renderContacts();
   </script>
 </body>
 </html>
